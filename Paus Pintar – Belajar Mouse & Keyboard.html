@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Paus Pintar – Belajar Mouse &amp; Keyboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b3c5d;--bg1:#8be0ff;--bg2:#1b8fd6;--bg3:#0a4a9c;--card:#fffffff0;--ok:#2ec4b6;--pink:#ff8fa3;--sun:#ffd166;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg1:#2a7fb8;--bg2:#124a85;--bg3:#061b3f}}
+:root[data-theme=dark]{--bg1:#2a7fb8;--bg2:#124a85;--bg3:#061b3f}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100%;background:linear-gradient(var(--bg1),var(--bg2) 55%,var(--bg3)) fixed;color:var(--ink);font-family:'Baloo 2','Comic Sans MS',system-ui,sans-serif;overflow-x:hidden}
+#bgb{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+#bgb span{position:absolute;bottom:-60px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fffa,#fff2);animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-120vh)}}
+#app{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:12px}
+.top{display:flex;align-items:center;gap:10px;color:#fff;text-shadow:0 2px 0 #0003}
+.top h1{flex:1;margin:0;font-size:clamp(20px,4vw,30px);text-align:center}
+.btn{border:0;border-radius:18px;padding:10px 18px;font:inherit;font-weight:800;font-size:18px;color:var(--ink);background:var(--sun);box-shadow:0 5px 0 #c89a1f;cursor:pointer;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #c89a1f}
+.btn.g{background:#fff;box-shadow:0 5px 0 #9bb8cc}
+#snd{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:50;font-size:26px;width:56px;height:56px;padding:0;border-radius:50%}
+.btn.p{background:var(--pink);box-shadow:0 5px 0 #d1566f;color:#fff}
+.btn:focus-visible,.card:focus-visible,.tile:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.hero{text-align:center;color:#fff;text-shadow:0 3px 0 #0004}
+.hero h1{font-size:clamp(40px,9vw,68px);margin:0;line-height:1}
+.hero p{font-size:20px;margin:6px 0 0}
+.hero .whale{width:min(300px,70vw);margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:18px}
+.card{background:var(--card);border-radius:26px;padding:18px;text-align:center;cursor:pointer;border:0;font:inherit;color:var(--ink);box-shadow:0 8px 0 #0003;transition:transform .15s}
+.card:hover{transform:translateY(-6px) rotate(-1deg)}
+.card .ic{font-size:56px;display:block}
+.card b{font-size:22px;display:block}
+.card small{font-size:15px;opacity:.8}
+.whale{display:block;overflow:visible;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-2deg)}}
+.tail{transform-box:fill-box;transform-origin:100% 80%;animation:wag 1.2s ease-in-out infinite}
+@keyframes wag{50%{transform:rotate(-14deg)}}
+.eye{transform-box:fill-box;transform-origin:center;animation:blink 4s infinite}
+@keyframes blink{94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.spout{transform-box:fill-box;transform-origin:50% 100%;animation:spout 2.4s ease-out infinite}
+@keyframes spout{0%{opacity:0;transform:scale(.3)}30%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.2) translateY(-8px)}}
+.jump{animation:jump .9s ease-out!important}
+@keyframes jump{30%{transform:translateY(-40px) rotate(-12deg) scale(1.1)}60%{transform:translateY(0) rotate(6deg)}}
+.panel{position:relative;background:var(--card);border-radius:26px;padding:14px;margin-top:12px;box-shadow:0 8px 0 #0003}
+.panel h2{margin:4px 0}.panel p{margin:2px 0 6px}
+.hud{display:flex;align-items:center;gap:12px}
+.hud .whale{width:92px}
+#hw{flex:none}
+.say{background:#e8f6ff;border-radius:18px;padding:8px 14px;font-size:clamp(16px,3.5vw,22px);font-weight:700;min-height:44px}
+.bar{height:14px;background:#cfe8f7;border-radius:9px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ec4b6,#ffd166);transition:width .3s}
+.lv{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
+.play{position:relative;height:min(62vh,460px);min-height:320px;border-radius:22px;overflow:hidden;background:linear-gradient(#c9f0ff,#7fd0f5);margin-top:10px;touch-action:none;user-select:none}
+.bub{position:absolute;left:0;top:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;background:radial-gradient(circle at 30% 30%,#fff,#7cc8ff 45%,#2e86de);box-shadow:inset 0 0 12px #fff9;will-change:transform}
+.bub.bad{background:radial-gradient(circle at 30% 30%,#fff,#ff9aa8 45%,#e63946)}
+.bub u{text-decoration:none;font-size:var(--fs);animation:wob 2s ease-in-out infinite}
+@keyframes wob{50%{transform:scale(1.15) rotate(8deg)}}
+.bub.pop{animation:pop .25s forwards;pointer-events:none}
+@keyframes pop{to{scale:1.8;opacity:0}}
+.bub.no{animation:shake .4s}
+.sp{position:absolute;z-index:30;pointer-events:none;font-size:24px;animation:sp .8s ease-out forwards}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+@keyframes shake{25%{translate:-8px}75%{translate:8px}}
+.it{position:absolute;display:grid;place-items:center;cursor:grab;touch-action:none;border-radius:50%;font-size:calc(var(--s)*.7);width:var(--s);height:var(--s);transition:left .35s,top .35s,transform .2s,opacity .3s;filter:drop-shadow(0 4px 3px #0003)}
+.it.drag{transition:none;transform:scale(1.18) rotate(-6deg);z-index:9;cursor:grabbing}
+.it.in{transform:scale(0);opacity:0}
+.it.shake{animation:shake .4s}
+.tg{position:absolute;bottom:10px;border:4px dashed #fff;border-radius:22px;display:grid;place-items:center;text-align:center;font-weight:800;background:#ffffff66;transition:.2s}
+.tg.hot{background:#ffd16699;transform:scale(1.06)}
+.tg .whale{width:100%}
+.big{display:flex;align-items:center;justify-content:center;gap:18px;margin:10px 0;min-height:110px}
+.big .ch{font-size:clamp(70px,16vw,120px);font-weight:800;line-height:1;color:#e63946}
+.big .em{font-size:clamp(60px,14vw,100px);animation:bob 1.6s infinite}
+.big.n .em{font-size:30px;max-width:230px;word-break:break-all;line-height:1.1}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.kgrid.n{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+.tile{position:relative;background:#fff;border-radius:18px;padding:6px 2px;text-align:center;box-shadow:0 5px 0 #9bb8cc;transition:.3s;cursor:pointer;border:0;font:inherit;color:var(--ink)}
+.tile b{font-size:34px;display:block;line-height:1}
+.tile i{font-style:normal;font-size:28px;display:block;line-height:1.2}
+.n .tile i{font-size:13px;word-break:break-all;padding:0 4px}
+.tile small{font-size:13px;display:block}
+.tile.cur{animation:glow 1s ease-in-out infinite;background:#fff6c9;z-index:1}
+@keyframes glow{50%{transform:scale(1.12);box-shadow:0 0 0 5px #ffd166,0 0 28px 8px #ffd166aa}}
+.tile.done{filter:grayscale(1);opacity:.45;box-shadow:none;transform:scale(.94);animation:none}
+.tile.done::after{content:"✓";position:absolute;top:2px;right:8px;color:var(--ok);font-weight:800}
+.tile.no{animation:shake .4s}
+.ov{position:absolute;inset:0;background:#0b3c5dcc;display:grid;place-items:center;z-index:20;border-radius:26px;text-align:center}
+.ov .box{background:#fff;padding:22px;border-radius:26px;max-width:92%}
+.ov h2{margin:0}
+.stars{font-size:44px;letter-spacing:6px}
+.fr{position:absolute;top:0;left:0;width:64px;height:64px;display:grid;place-items:center;font-size:48px}
+.fr b{position:absolute;bottom:-2px;right:-4px;background:#fff;border-radius:50%;width:28px;height:28px;font-size:17px;display:grid;place-items:center;border:2px solid var(--ink)}
+.wh{position:absolute;bottom:4px;left:0;width:130px}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.dots span{width:30px;height:30px;border-radius:50%;background:#cfe8f7;display:grid;place-items:center;font-size:16px;font-weight:800}
+.dots span.d{background:var(--ok);color:#fff}
+.dots span.c{background:var(--sun);animation:glow 1s infinite}
+@media(prefers-reduced-motion:reduce){#bgb span,.whale,.tail,.spout{animation:none}}
+</style>
+</head>
+<body>
+<div id="bgb"></div>
+<main id="app"></main>
+<button class="btn g" id="snd" aria-label="Suara hidup atau mati">🔊</button>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const pick=a=>a[Math.random()*a.length|0],shuf=a=>a.sort(()=>Math.random()-.5);
+const PR=['Pintar!','Hebat!','Bagus sekali!','Yeay! 🎉','Mantap!','Keren! ⭐'];
+const NM=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan'];
+const fish=['🐟','🐠','🐙','🦀','🐡','🦑'];
+let cl=[];
+const go=f=>{cl.forEach(c=>c());cl=[];f();scrollTo(0,0)};
+let ac;
+let muted=false;
+function snd(f=600,d=.15,t='sine',to=0,v=.14){if(muted)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state=='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain(),n=ac.currentTime;o.type=t;o.frequency.setValueAtTime(f,n);if(to)o.frequency.exponentialRampToValueAtTime(to,n+d);g.gain.setValueAtTime(v,n);o.connect(g);g.connect(ac.destination);o.start(n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.stop(n+d)}catch(e){}}
+const ok=()=>{[660,880,1100].forEach((f,i)=>setTimeout(()=>snd(f,.14,'triangle'),i*70))},oops=()=>snd(300,.3,'sawtooth',120,.08),win=()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>setTimeout(()=>snd(f,.3,'triangle'),i*140)),
+pop=()=>snd(500,.1,'sine',1200,.2),grab=()=>snd(420,.06,'sine',520,.1),
+chomp=()=>{snd(200,.1,'square',120,.07);setTimeout(()=>snd(220,.1,'square',130,.07),120);setTimeout(ok,260)},
+whaleCall=()=>{snd(180,.9,'sine',420,.22);setTimeout(()=>snd(420,.7,'sine',160,.18),500)};
+const say=t=>{if(muted)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';u.rate=.9;speechSynthesis.speak(u)}catch(e){}};
+const whale=()=>`<svg class="whale" viewBox="0 0 220 150" aria-hidden="true">
+<g class="spout" fill="none" stroke="#bfe9ff" stroke-width="5" stroke-linecap="round"><path d="M122 26Q110 4 98 8M122 26Q134 4 146 8M122 26V2"/></g>
+<g class="tail"><path d="M28 88C12 84 4 66 6 44C18 52 26 60 32 70C34 52 42 40 56 34C52 52 48 68 46 84Z" fill="#2f6fe0"/></g>
+<path d="M20 85C20 40 70 20 120 25C170 30 195 60 190 95C185 125 140 135 100 132C55 130 20 120 20 85Z" fill="#3a86ff"/>
+<path d="M40 100C70 125 150 130 185 100C170 125 120 138 90 135C60 132 45 118 40 100Z" fill="#d6ecff"/>
+<path d="M95 105C110 130 135 135 140 125C125 120 115 112 110 100Z" fill="#2f6fe0"/>
+<circle cx="150" cy="75" r="10" fill="#fff"/><circle class="eye" cx="152" cy="76" r="6" fill="#0b3c5d"/><circle cx="154" cy="73" r="2.2" fill="#fff"/>
+<circle cx="168" cy="92" r="8" fill="#ff8fa3" opacity=".65"/>
+<path d="M158 102Q172 114 187 99" stroke="#0b3c5d" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`;
+function jmp(el){if(!el)return;el.classList.remove('jump');void el.getBoundingClientRect();el.classList.add('jump')}
+function react(m,j){const s=$('#say');if(s)s.textContent=m;if(j)jmp($('#hw .whale'));say(m.replace(/[^\p{L}\p{N} !.,?]/gu,''))}
+const bar=p=>{const b=$('#bar');if(b)b.style.width=p+'%'};
+function burst(p,x,y,e=['✨','⭐','💙']){for(let i=0;i<7;i++){const s=document.createElement('div');s.className='sp';s.textContent=e[i%e.length];s.style.cssText=`left:${x}px;top:${y}px;--dx:${Math.random()*140-70}px;--dy:${-Math.random()*110-10}px`;p.appendChild(s);setTimeout(()=>s.remove(),800)}}
+const shell=(t,back,inner='<div class="play" id="play"></div>')=>`<div class="top"><button class="btn g" onclick="go(${back})" aria-label="Kembali">🏠</button><h1>${t}</h1><span style="width:64px"></span></div><div class="panel"><div class="hud"><div id="hw" onclick="whaleCall();jmp(this.querySelector('svg'))" style="cursor:pointer" title="Klik paus">${whale()}</div><div style="flex:1"><div class="say" id="say"></div><div class="bar"><i id="bar"></i></div></div></div>${inner}</div>`;
+function fin(redo,nxt,miss,home){win();setTimeout(whaleCall,1100);const st=miss<=2?3:miss<=5?2:1,P=$('.panel'),o=document.createElement('div');o.className='ov';
+o.innerHTML=`<div class="box"><div style="font-size:60px">🐳🎉</div><h2>Hebat sekali!</h2><div class="stars">${'⭐'.repeat(st)}${'☆'.repeat(3-st)}</div><p>Kesalahan: ${miss}</p><button class="btn" onclick="go(()=>${redo})">Ulangi 🔁</button> ${nxt?`<button class="btn p" onclick="go(()=>${nxt})">Lanjut ➜</button> `:''}<button class="btn g" onclick="go(${home})">Menu</button></div>`;
+P.appendChild(o);const r=P.getBoundingClientRect();for(let i=0;i<6;i++)setTimeout(()=>burst(P,Math.random()*r.width,r.height*.5,['🎉','⭐','✨','💙','🫧']),i*160)}
+
+/* MENU */
+function menu(){app.innerHTML=`<div class="hero"><div onclick="whaleCall();jmp(this.querySelector('svg'))" style="cursor:pointer">${whale()}</div><h1>Paus Pintar</h1><p>Ayo belajar mouse dan keyboard bersama Paus Biru!</p></div>
+<div class="cards">
+<button class="card" onclick="go(mouseMenu)"><span class="ic">🖱️</span><b>Latihan Mouse</b><small>Klik dan seret bersama paus</small></button>
+<button class="card" onclick="go(()=>keyGame('abc'))"><span class="ic">🔤</span><b>Latihan Huruf</b><small>Tekan huruf A sampai Z</small></button>
+<button class="card" onclick="go(numMenu)"><span class="ic">🔢</span><b>Latihan Angka</b><small>0 sampai 9 dan 9 sampai 0</small></button>
+<button class="card" onclick="go(fruit)"><span class="ic">🍉</span><b>Tangkap Angka Buah</b><small>Tangkap buah angka 1 sampai 9</small></button></div>`}
+function mouseMenu(){const lv=(n,f)=>[...Array(n)].map((_,i)=>`<button class="btn" onclick="go(()=>${f}(${i+1}))">Level ${i+1}</button>`).join('');
+app.innerHTML=`<div class="top"><button class="btn g" onclick="go(menu)" aria-label="Kembali">🏠</button><h1>Latihan Mouse</h1><span style="width:64px"></span></div>
+<div class="panel"><h2>🫧 Latihan Klik</h2><p>Klik gelembung dengan tombol kiri mouse. Dari mudah ke sulit.</p><div class="lv">${lv(4,'clickLv')}</div></div>
+<div class="panel"><h2>✋ Latihan Seret (Drag and Drop)</h2><p>Tahan tombol mouse, geser, lalu lepas di tempat yang benar.</p><div class="lv">${lv(5,'dragLv')}</div></div>`}
+function numMenu(){app.innerHTML=`<div class="top"><button class="btn g" onclick="go(menu)" aria-label="Kembali">🏠</button><h1>Latihan Angka</h1><span style="width:64px"></span></div>
+<div class="cards"><button class="card" onclick="go(()=>keyGame('up'))"><span class="ic">⬆️</span><b>0 ➜ 9</b><small>Dari kecil ke besar</small></button><button class="card" onclick="go(()=>keyGame('down'))"><span class="ic">⬇️</span><b>9 ➜ 0</b><small>Dari besar ke kecil</small></button></div>`}
+
+/* KLIK */
+const CL=[0,{n:5,s:110,v:0,t:'Klik semua gelembung!'},{n:6,s:90,v:.8,t:'Gelembungnya bergerak pelan. Klik semuanya!'},{n:8,s:68,v:1.6,t:'Lebih kecil dan lebih cepat!'},{n:6,s:70,v:1.7,bad:4,t:'Klik gelembung BIRU saja, jangan yang merah!'}];
+function clickLv(l){const c=CL[l];app.innerHTML=shell('Latihan Klik – Level '+l,'mouseMenu');
+const P=$('#play'),W=P.clientWidth,H=P.clientHeight;let left=c.n,miss=0,run=1,B=[];react(c.t);
+P.onpointerdown=()=>{miss++};
+const mk=b=>{const e=document.createElement('div');e.className='bub'+(b?' bad':'');e.style.cssText=`width:${c.s}px;height:${c.s}px;--fs:${c.s*.5}px`;e.innerHTML=`<u>${b?'🦀':pick(fish)}</u>`;
+const o={e,bad:b,x:Math.random()*(W-c.s),y:Math.random()*(H-c.s),vx:(Math.random()<.5?-1:1)*c.v*(.6+Math.random()*.6),vy:(Math.random()<.5?-1:1)*c.v*(.6+Math.random()*.6)};
+e.style.transform=`translate(${o.x}px,${o.y}px)`;
+e.onpointerdown=ev=>{ev.stopPropagation();if(o.dead)return;
+if(b){miss++;oops();react('Jangan yang merah! 🙅');e.classList.remove('no');void e.offsetWidth;e.classList.add('no');return}
+o.dead=1;e.classList.add('pop');setTimeout(()=>e.remove(),260);left--;pop();setTimeout(ok,70);burst(P,o.x+c.s/2,o.y+c.s/2);bar((1-left/c.n)*100);react(pick(PR),true);
+if(!left){run=0;setTimeout(()=>fin(`clickLv(${l})`,l<4?`clickLv(${l+1})`:'',miss,'mouseMenu'),400)}};
+P.appendChild(e);B.push(o)};
+for(let i=0;i<c.n;i++)mk(0);for(let i=0;i<(c.bad||0);i++)mk(1);
+const f=()=>{if(!run)return;if(c.v)B.forEach(o=>{if(o.dead)return;o.x+=o.vx;o.y+=o.vy;if(o.x<0||o.x>W-c.s)o.vx*=-1;if(o.y<0||o.y>H-c.s)o.vy*=-1;o.e.style.transform=`translate(${o.x}px,${o.y}px)`});requestAnimationFrame(f)};f();
+cl.push(()=>run=0)}
+
+/* SERET */
+const col=[['#e63946','r'],['#ffb703','y'],['#2e86de','b']],BX=[{k:'r',l:'Merah',c:'#e63946'},{k:'y',l:'Kuning',c:'#d99100'},{k:'b',l:'Biru',c:'#2e86de'}];
+const D=[0,
+{s:84,t:'Seret 3 ikan ke mulut paus!',T:[{k:'w'}],I:[['🐟','w'],['🐟','w'],['🐟','w']]},
+{s:64,t:'Beri makan paus semua makanan laut!',T:[{k:'w'}],I:[['🐟','w'],['🦐','w'],['🦑','w'],['🐠','w'],['🦀','w']]},
+{s:72,t:'Letakkan bola ke kotak warna yang sama!',T:BX,I:[...col,...col]},
+{s:52,t:'Lebih banyak dan lebih kecil. Pasti bisa!',T:BX,I:[...col,...col,...col]},
+{s:62,t:'Mana rumahnya? Laut atau darat?',T:[{k:'l',l:'🌊 Laut',c:'#2e86de'},{k:'d',l:'🌳 Darat',c:'#2a8f3a'}],I:[['🐙','l'],['🐘','d'],['🦀','l'],['🐄','d'],['🐬','l'],['🐇','d'],['🦈','l'],['🐑','d']]}];
+const hit=(t,e)=>{const a=e.getBoundingClientRect(),b=t.getBoundingClientRect(),x=a.left+a.width/2,y=a.top+a.height/2;return x>b.left-8&&x<b.right+8&&y>b.top-8&&y<b.bottom+8};
+function dragLv(l){const c=D[l];app.innerHTML=shell('Latihan Seret – Level '+l,'mouseMenu');
+const P=$('#play'),W=P.clientWidth,s=c.s,n=c.I.length;let left=n,miss=0;P.style.setProperty('--s',s+'px');react(c.t);
+const TG=c.T.map((t,i)=>{const d=document.createElement('div');d.className='tg';d.dataset.k=t.k;
+if(t.k=='w'){d.style.cssText='right:12px;width:min(230px,50%);height:150px;border:0;background:none';d.innerHTML=whale()}
+else{const q=100/c.T.length;d.style.cssText=`left:${i*q+2}%;width:${q-4}%;height:96px;border-color:${t.c};color:${t.c};font-size:clamp(15px,3vw,24px)`;d.textContent=t.l}
+P.appendChild(d);return d});
+const cols=Math.ceil(n/2);
+shuf([...c.I]).forEach(([v,k],i)=>{const e=document.createElement('div');e.className='it';e.dataset.k=k;
+if(v[0]=='#')e.style.background=`radial-gradient(circle at 30% 30%,#fff,${v} 55%)`;else e.textContent=v;
+e.style.left=((i>>1)+.5)*W/cols-s/2+'px';e.style.top=8+(i%2)*(s+14)+'px';P.appendChild(e);
+let ox,oy;
+e.onpointerdown=v=>{if(e.classList.contains('in'))return;e.setPointerCapture(v.pointerId);const r=e.getBoundingClientRect();ox=v.clientX-r.left;oy=v.clientY-r.top;e.sx=e.style.left;e.sy=e.style.top;e.classList.add('drag');grab()};
+e.onpointermove=v=>{if(!e.classList.contains('drag'))return;const p=P.getBoundingClientRect();e.style.left=v.clientX-p.left-ox+'px';e.style.top=v.clientY-p.top-oy+'px';TG.forEach(t=>t.classList.toggle('hot',hit(t,e)))};
+e.onpointerup=e.onpointercancel=()=>{if(!e.classList.contains('drag'))return;e.classList.remove('drag');TG.forEach(t=>t.classList.remove('hot'));
+const t=TG.find(t=>hit(t,e));if(!t)return;
+if(t.dataset.k==e.dataset.k){const p=P.getBoundingClientRect(),r=t.getBoundingClientRect();e.style.left=r.left-p.left+r.width/2-s/2+'px';e.style.top=r.top-p.top+r.height/2-s/2+'px';e.classList.add('in');e.style.pointerEvents='none';
+left--;t.dataset.k=='w'?chomp():ok();burst(P,r.left-p.left+r.width/2,r.top-p.top+r.height/2);bar((1-left/n)*100);react(t.dataset.k=='w'?'Nyam nyam! Enak! 😋':pick(PR),true);jmp(t.querySelector('svg'));
+if(!left)setTimeout(()=>fin(`dragLv(${l})`,l<5?`dragLv(${l+1})`:'',miss,'mouseMenu'),500)}
+else{miss++;oops();e.style.left=e.sx;e.style.top=e.sy;e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),400);react('Belum cocok, coba tempat lain ya!')}}})}
+
+/* KEYBOARD */
+const WD='Apel🍎,Bola⚽,Cicak🦎,Domba🐑,Elang🦅,Flamingo🦩,Gajah🐘,Hiu🦈,Ikan🐟,Jeruk🍊,Kucing🐱,Lebah🐝,Mobil🚗,Nanas🍍,Orang🧑,Paus🐳,Queen👑,Roket🚀,Sapi🐮,Tikus🐭,Ular🐍,Vas🏺,Wortel🥕,Xilofon🎹,Yoyo🪀,Zebra🦓'.split(',');
+function keyGame(kind){let S,isN=kind!='abc';
+if(!isN)S=WD.map((s,i)=>{const w=s.match(/^[A-Za-z]+/)[0];return{k:w[0].toUpperCase(),m:w[0].toUpperCase(),w,e:s.slice(w.length)}});
+else{S=[...Array(10).keys()].map(n=>({k:''+n,m:''+n,w:NM[n],e:n?'🍎'.repeat(n):'🚫'}));if(kind=='down')S.reverse()}
+app.innerHTML=shell(isN?(kind=='up'?'Angka 0 ➜ 9':'Angka 9 ➜ 0'):'Huruf A ➜ Z',isN?'numMenu':'menu',`<div class="big${isN?' n':''}" id="big"></div><div class="kgrid${isN?' n':''}" id="kg">${S.map(s=>`<button class="tile"><b>${s.m}</b><i>${s.e}</i><small>${s.w}</small></button>`).join('')}</div>`);
+const T=[...document.querySelectorAll('.tile')];let i=0,miss=0;
+const mark=()=>{const s=S[i];T.forEach((t,j)=>t.classList.toggle('cur',j==i));$('#big').innerHTML=`<span class="ch">${s.m}</span><span class="em">${s.e}</span>`;react(isN?`Tekan angka ${s.m} (${s.w})`:`Tekan huruf ${s.m} untuk ${s.w}`)};
+const press=k=>{if(i>=S.length)return;
+if(k==S[i].k){const t=T[i];t.classList.remove('cur');t.classList.add('done');const r=t.getBoundingClientRect(),p=$('.panel').getBoundingClientRect();burst($('.panel'),r.left-p.left+r.width/2,r.top-p.top);ok();i++;bar(i/S.length*100);
+if(i==S.length){react('Selesai! Kamu hebat!',true);T.forEach(t=>t.classList.remove('cur'));setTimeout(()=>fin(`keyGame('${kind}')`,'',miss,isN?'numMenu':'menu'),700)}else{jmp($('#hw .whale'));mark()}}
+else{miss++;oops();const t=T[i];t.classList.add('no');setTimeout(()=>t.classList.remove('no'),400);react(`Belum tepat. Cari ${isN?'angka':'huruf'} ${S[i].m} ya!`)}};
+const kd=e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!=1||!/\S/.test(e.key))return;e.preventDefault();press(e.key.toUpperCase())};
+addEventListener('keydown',kd);cl.push(()=>removeEventListener('keydown',kd));
+T.forEach((t,j)=>t.onclick=()=>press(S[j].k));mark()}
+
+/* TANGKAP ANGKA BUAH */
+function fruit(){app.innerHTML=shell('Tangkap Angka Buah','menu','<div class="dots" id="dots"></div><div class="play" id="play"></div>');
+const F=['🍎','🍌','🍇','🍓','🍊','🍉','🍍','🍒','🥝'],P=$('#play'),W=P.clientWidth,H=P.clientHeight,DT=$('#dots');
+let n=1,miss=0,x=W/2,run=1,L=[],last=0;
+DT.innerHTML=[1,2,3,4,5,6,7,8,9].map(i=>`<span>${i}</span>`).join('');
+const sync=()=>{[...DT.children].forEach((d,j)=>d.className=j+1<n?'d':j+1==n?'c':'');if(n<=9){react(`Tangkap angka ${n} ${F[n-1]}!`)}};
+const w=document.createElement('div');w.className='wh';w.innerHTML=whale();P.appendChild(w);
+P.onpointermove=P.onpointerdown=e=>{x=Math.max(65,Math.min(W-65,e.clientX-P.getBoundingClientRect().left))};
+const kd=e=>{if(e.key=='ArrowLeft')x=Math.max(65,x-45);if(e.key=='ArrowRight')x=Math.min(W-65,x+45)};
+addEventListener('keydown',kd);
+const f=t=>{if(!run)return;
+if(t-last>1000){last=t;const v=Math.random()<.5?n:1+(Math.random()*9|0),e=document.createElement('div');e.className='fr';e.innerHTML=`${F[v-1]}<b>${v}</b>`;P.appendChild(e);L.push({e,v,x:Math.random()*(W-64),y:-64})}
+w.style.transform=`translateX(${x-65}px)`;
+L=L.filter(o=>{o.y+=2.2+n*.12;o.e.style.transform=`translate(${o.x}px,${o.y}px)`;
+if(o.y>H-100&&o.y<H-20&&Math.abs(o.x+32-x)<72){o.e.remove();
+if(o.v==n){n++;ok();burst(P,x,H-90);jmp($('#hw .whale'));bar((n-1)/9*100);sync();if(n>9){run=0;setTimeout(()=>fin('fruit()','',miss,'menu'),500)}}
+else{miss++;oops();react(`Itu angka ${o.v}. Cari angka ${n}!`)}return false}
+if(o.y>H){o.e.remove();return false}return true});
+requestAnimationFrame(f)};
+requestAnimationFrame(f);cl.push(()=>{run=0;removeEventListener('keydown',kd)});sync()}
+
+const bg=$('#bgb');for(let i=0;i<14;i++){const s=document.createElement('span'),z=10+Math.random()*40;s.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;animation-duration:${8+Math.random()*12}s;animation-delay:${-Math.random()*15}s`;bg.appendChild(s)}
+const MEL=[523,659,784,659,587,698,880,698,523,659,784,1047,880,784,659,587];let mi=0,mt=0;
+function music(){clearInterval(mt);mt=0;if(muted)return;mt=setInterval(()=>snd(MEL[mi++%MEL.length]/2,.55,'triangle',0,.03),500)}
+$('#snd').onclick=()=>{muted=!muted;$('#snd').textContent=muted?'🔇':'🔊';if(muted){clearInterval(mt);mt=0;try{speechSynthesis.cancel()}catch(e){}}else{music();snd(660,.1)}};
+addEventListener('pointerdown',()=>{if(!mt&&!muted)music()},{once:true});
+menu();
+</script>
+</body>
+</html>
